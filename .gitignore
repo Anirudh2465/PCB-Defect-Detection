@@ -1,0 +1,11 @@
+yolov12_repo
+DeepPCB
+DeepPCB_YOLO/test
+DeepPCB_YOLO/valid
+DeepPCB_YOLO/train
+DeepPCB_YOLO/inference_results
+DeepPCB_YOLO/inference_results_v12
+DeepPCB_YOLO/inference_results_v12_ghost
+DeepPCB_YOLO/inference_results_v12_ghost_extreme
+DeepPCB_YOLO/modelinfo
+runs
