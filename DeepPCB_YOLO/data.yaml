@@ -1,0 +1,13 @@
+path: d:/PCB Defect project/DeepPCB_YOLO # dataset root dir
+train: train/images 
+val: valid/images 
+test: test/images 
+
+# Classes
+names:
+  0: open
+  1: short
+  2: mousebite
+  3: spur
+  4: copper
+  5: pin-hole

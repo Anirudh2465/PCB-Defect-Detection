@@ -1,0 +1,14 @@
+artifact_uri: file:D:/PCB Defect project/runs/mlflow/237831557038963527/e1c64414ae8441849ccb05715c966e89/artifacts
+end_time: 1766445307401
+entry_point_name: ''
+experiment_id: '237831557038963527'
+lifecycle_stage: active
+run_id: e1c64414ae8441849ccb05715c966e89
+run_name: yolov11_pcb
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1766442294858
+status: 3
+tags: []
+user_id: Anirudh
