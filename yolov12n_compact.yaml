@@ -1,0 +1,45 @@
+# YOLOv12 🚀, AGPL-3.0 license
+# YOLOv12-Compact (Reduced Parameters + A2C2f)
+
+# Parameters
+nc: 80 # number of classes
+scales:
+  # Reduced width multiplier for fewer channels
+  n: [0.34, 0.25, 512] # depth=0.34 (fewer repeats), width=0.25 (narrower)
+  s: [0.34, 0.50, 512]
+  m: [0.50, 1.00, 512]
+  l: [1.00, 1.00, 512]
+  x: [1.00, 1.50, 512]
+
+# backbone (All channels are multiples of 32)
+backbone:
+  # [from, repeats, module, args]
+  - [-1, 1, GhostConv, [32, 3, 2]] # 0-P1/2 (Reduced from 64)
+  - [-1, 1, GhostConv, [64, 3, 2, 1, 2]] # 1-P2/4 (Reduced from 128)
+  - [-1, 1, C3Ghost, [128, False, 1, 0.25]] # 2 (Reduced repeats, reduced channels)
+  - [-1, 1, GhostConv, [128, 3, 2, 1, 4]] # 3-P3/8
+  - [-1, 1, C3Ghost, [256, False, 1, 0.25]] # 4 (Reduced repeats)
+  - [-1, 1, GhostConv, [256, 3, 2]] # 5-P4/16
+  - [-1, 2, A2C2f, [256, True, 4]] # 6 (Reduced repeats, A2C2f kept!)
+  - [-1, 1, GhostConv, [512, 3, 2]] # 7-P5/32
+  - [-1, 2, A2C2f, [512, True, 1]] # 8 (Reduced repeats, A2C2f kept!)
+
+# head
+head:
+  - [-1, 1, nn.Upsample, [None, 2, "nearest"]]
+  - [[-1, 6], 1, Concat, [1]]
+  - [-1, 1, C3Ghost, [256, False, 1, 0.25]] # 11
+
+  - [-1, 1, nn.Upsample, [None, 2, "nearest"]]
+  - [[-1, 4], 1, Concat, [1]]
+  - [-1, 1, C3Ghost, [128, False, 1, 0.25]] # 14
+
+  - [-1, 1, GhostConv, [128, 3, 2]] # 15
+  - [[-1, 11], 1, Concat, [1]]
+  - [-1, 1, C3Ghost, [256, False, 1, 0.25]] # 17
+
+  - [-1, 1, GhostConv, [256, 3, 2]] # 18
+  - [[-1, 8], 1, Concat, [1]]
+  - [-1, 1, C3Ghost, [512, True, 1, 0.25]] # 20
+
+  - [[14, 17, 20], 1, Detect, [nc]]
